@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;height&apos; in &apos;Recurse.TriangleSplit(...)&apos; to &apos;treeHeight&apos;&#x0D;&#x0A;- Original project: &apos;AnimationSoln&apos;&#x0D;&#x0A;- Original element: &apos;Recurse.TriangleSplit(int, GOval).height&apos;&#x0D;&#x0A;- Renamed element: &apos;height&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;height&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/&lt;{Recurse.java[Recurse~TriangleSplit~I~QGOval;@height!1058!1067!1062!1067!I!0!true" name="treeHeight" references="true" stamp="1435111865686" version="1.0"/>
+</session>

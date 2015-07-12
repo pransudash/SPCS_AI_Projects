@@ -1,0 +1,18 @@
+2015-06-23 20:35:32,333 [Recommenders-Timeout-Manager] ERROR o.e.r.i.rcp.JavaElementSelections - Failed to resolve selection in '=AnimationSoln/<{memes.java' at offset 1272
+org.eclipse.jdt.core.JavaModelException: Index out of bounds
+	at org.eclipse.jdt.internal.core.Openable.codeSelect(Openable.java:158) ~[org.eclipse.jdt.core_3.10.0.v20140604-1726.jar:na]
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeSelect(CompilationUnit.java:377) ~[org.eclipse.jdt.core_3.10.0.v20140604-1726.jar:na]
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeSelect(CompilationUnit.java:371) ~[org.eclipse.jdt.core_3.10.0.v20140604-1726.jar:na]
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelections.resolveJavaElementFromTypeRootInEditor(JavaElementSelections.java:146) [org.eclipse.recommenders.rcp_2.1.0.v20140610-1852.jar:na]
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelections.resolveJavaElementFromEditor(JavaElementSelections.java:128) [org.eclipse.recommenders.rcp_2.1.0.v20140610-1852.jar:na]
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelections.resolveJavaElementFromEditor(JavaElementSelections.java:111) [org.eclipse.recommenders.rcp_2.1.0.v20140610-1852.jar:na]
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelectionService.handleSelectionInEditor(JavaElementSelectionService.java:108) [org.eclipse.recommenders.rcp_2.1.0.v20140610-1852.jar:na]
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelectionService.access$1(JavaElementSelectionService.java:105) [org.eclipse.recommenders.rcp_2.1.0.v20140610-1852.jar:na]
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelectionService$1.run(JavaElementSelectionService.java:82) [org.eclipse.recommenders.rcp_2.1.0.v20140610-1852.jar:na]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) [na:1.8.0_45]
+	at java.util.concurrent.FutureTask.run(Unknown Source) [na:1.8.0_45]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(Unknown Source) [na:1.8.0_45]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(Unknown Source) [na:1.8.0_45]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) [na:1.8.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) [na:1.8.0_45]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_45]

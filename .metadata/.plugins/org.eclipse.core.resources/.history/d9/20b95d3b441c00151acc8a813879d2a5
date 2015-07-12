@@ -1,0 +1,22 @@
+
+public class HammingHeuristic implements AStarHeuristic {
+	
+	public int getCost(Board state, Board goalState) {
+		
+		// TODO Complete method implementation
+		int numDifferences = 0;
+		
+		for(int i = 0; i < Board.rows; i++){
+			for(int n = 0; n < Board.columns; n++){
+				if(goalState.tiles[i][n] != state.tiles[i][n] 
+						&& goalState.tiles[i][n] != 0 && goalState.tiles[i][n] != -1)
+				{
+					numDifferences++;
+				}
+			}
+		}
+
+		return numDifferences;
+	}
+}
+

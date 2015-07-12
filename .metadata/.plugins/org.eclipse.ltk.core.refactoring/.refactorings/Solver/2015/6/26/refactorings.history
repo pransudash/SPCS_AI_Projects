@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;j&apos; in &apos;HammingHeuristic.getCost(...)&apos; to &apos;n&apos;&#x0D;&#x0A;- Original project: &apos;Solver&apos;&#x0D;&#x0A;- Original element: &apos;HammingHeuristic.getCost(Board, Board).j&apos;&#x0D;&#x0A;- Renamed element: &apos;j&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;j&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;{HammingHeuristic.java[HammingHeuristic~getCost~QBoard;~QBoard;@j!232!240!236!236!I!0!false" name="n" references="true" stamp="1435347315820" version="1.0"/>
+</session>

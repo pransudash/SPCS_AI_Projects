@@ -1,0 +1,239 @@
+import java.awt.Color;
+import java.awt.event.*;
+import java.util.*;
+
+import javax.swing.JTextField;
+import org.lekan.graphics.*;
+
+/**
+ * This program should allow us to supply the name of an image file, click to select
+ * seed values, then cluster the pixels in the image. Remember the demos that we saw in 
+ * class on Thursday.
+ * 
+ * @author Ben Holtz
+ *
+ */
+public class ImageClusterer extends GraphicsProgram implements ImageClustererConstants {
+
+	/** The JTextField that is used for inputting a filename */
+	private JTextField imageNameField;
+	
+	/** The image that is currently being displayed */
+	private SGImage currentImage;
+	
+	/** The list of ellipses that are being used to show where the seed centers are */
+	private List<SGEllipse> points = new ArrayList<SGEllipse>();
+	
+	/** The pixel values of the seed centers */
+	private List<Pixel> centers = new ArrayList<Pixel>();
+	
+	/** The current image stored as pixels */
+	private Pixel[][] pixels;
+
+	/**
+	 * When the button is clicked, cluster the pixels by the centers you have chosen, 
+	 * then update the pixels array to match the cluster centers. My intention is for you 
+	 * to implement k-means, but you are welcome to attempt HAC. Recall the steps involved
+	 * in k-means:
+	 * 1. Group the pixels in the image by which center it is nearest to.
+	 * 2. Recompute the centers as the average of the pixels in each group
+	 * 3. Repeat this process until the centers are stable or you have performed
+	 *    MAX_ITERATIONS. 
+	 * 4. Update the pixels array so that pixels in the same cluster are the same color
+	 * 5. The updateImage() method will redraw the currentImage using the pixels array
+	 * 6. redrawCenters() just redraws the seed centers over the updated image 
+	 * 
+	 */
+	private void clusterPixels() {
+		
+		boolean changed = true;
+		
+		ArrayList<int[]>[] clusters = new ArrayList[centers.size()];
+		
+		// Main loop bruhh
+		for( int m = 0; m < ImageClustererConstants.MAX_ITERATIONS; m++ ) {
+			for( int n = 0; n < clusters.length; n++ ) {
+				clusters[n] = new ArrayList<int[]>();
+			}
+			
+			int index = 0;		
+			for( int i = 0; i < pixels.length; i++ ) {
+				for( int j = 0; j < pixels[i].length; j++ ) { 
+					int min = 0;
+					double minDist = Double.MAX_VALUE;
+					for( int k = 0; k < centers.size(); k++ ) {
+						if( pixels[i][j].distance(centers.get(k)) < minDist ) {
+							minDist = pixels[i][j].distance(center);
+							min = j;
+						}
+					}
+					int[] coord = new int[2];
+					coord[0] = min;
+					coord[1] = min;
+					clusters[min].add(coord);
+				}
+				index++;
+			}
+			
+			for( int i = 0; i < clusters.length; i++ ) {
+				int sum = 0;
+				int j;
+				for( j = 0; j < clusters[i].size(); j++ ) {
+					int[] coord = clusters[i].get(j);
+					sum += pixels[coord[0]][coord[1]].getRGB();
+				}
+				int avg = (int) Math.round( sum / (j+1) );
+				Pixel changedCenter = new Pixel(avg);
+				if(changedCenter.getRGB() == centers.get(i).getRGB())
+					changed = true;
+				centers.set(i, changedCenter);
+			}
+			
+			if(!changed)
+				break;
+		}
+		
+		// Update all pixels in each cluster
+		for( int i = 0; i < centers.size(); i++ ) {
+			ArrayList<int[]> temp = clusters[i];
+			Pixel p = centers.get(i);
+			for( int j = 0; j < temp.size(); j++ ) {
+				int[] coord = temp.get(j);
+				pixels[coord[0]][coord[1]].setRGB(p.getRGB());
+			}
+		}
+		
+		updateImage();
+		redrawCenters();
+	}
+	
+	
+	public static void main(String[] args) {
+		new ImageClusterer();
+	}
+
+	public void setup() {
+		this.getFrame().setTitle("Cluster an Image");
+		this.getFrame().setDimensions(WINDOW_WIDTH, WINDOW_HEIGHT);
+		setupTextField();
+		setupButtons();
+	}
+
+	private void setupButtons() {
+		this.addButton(CLEAR_TEXT, SOUTH);
+		this.addButton(CLUSTER_TEXT, SOUTH);
+	}
+
+	private void setupTextField() {
+		imageNameField = new JTextField(TEXT_FIELD_WIDTH);
+		imageNameField.addKeyListener(this);
+		this.addJComponent(imageNameField, SOUTH);
+	}
+
+	public void run() {
+
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+		if (command.equals(CLEAR_TEXT)) clearPoints();
+		else if (command.equals(CLUSTER_TEXT)) clusterPixels();
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (currentImage != null) {
+			int x = e.getX();
+			int y = e.getY();
+			if (x < currentImage.getWidth() && y < currentImage.getHeight()) 
+				addPoint(x, y);
+		}
+	}
+	
+	/**
+	 * Clear the centers from the frame and the data structures maintaining them
+	 */
+	private void clearPoints() {
+		for (SGEllipse point : points) this.getFrame().removeObject(point);
+		points.clear();
+		centers.clear();
+	}
+	
+	/**
+	 * Add and store the new seed center point
+	 * @param x The x coordinate of the seed point
+	 * @param y The y coordinate of the seed point
+	 */
+	private void addPoint(int x, int y) {
+		this.getFrame().setForegroundColor(Color.MAGENTA);
+		SGEllipse point = new SGEllipse(x, y, POINT_RADIUS, POINT_RADIUS);
+		points.add(point);
+		centers.add(new Pixel(currentImage.getPixel(x, y)));
+		this.getFrame().addObject(point);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == RETURN_CODE) {
+			displayImage(imageNameField.getText());
+			resetPixels();
+		}
+	}
+
+	/**
+	 * Set the pixels container to hold the pixel values for the 
+	 * currentImage
+	 */
+	private void resetPixels() {
+		int height = currentImage.getHeight();
+		int width = currentImage.getWidth();
+		pixels = new Pixel[width][height];
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				pixels[i][j] = new Pixel(currentImage.getPixel(i, j));
+			}
+		}
+	}
+
+	/**
+	 * Display the image with the given filename on the frame
+	 * @param filename The name of the file with the image to be displayed
+	 */
+	private void displayImage(String filename) {
+		currentImage = new SGImage(0, 0, filename);
+		if (currentImage != null) {
+			int width = currentImage.getWidth();
+			int height = currentImage.getHeight();
+			this.getFrame().setDimensions(width, height);
+			this.getFrame().clearGraphics();
+			this.getFrame().addObject(currentImage);
+			clearPoints(); // We want a new set of seed centers too!
+		}
+	}
+	
+	/**
+	 * Reset the currentImage to reflect the pixel data stored in pixels
+	 */
+	private void updateImage() {
+		int height = currentImage.getHeight();
+		int width = currentImage.getWidth();
+		this.getFrame().removeObject(currentImage);
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				currentImage.setPixel(i, j, pixels[i][j].getRGB());
+			}
+		}
+		this.getFrame().addObject(currentImage);
+	}
+	
+	/**
+	 * Redraw the seed centers in the foreground.
+	 */
+	private void redrawCenters() {
+		if (points != null) {
+			for (SGEllipse point : points) {
+				this.getFrame().removeObject(point);
+				this.getFrame().addObject(point);
+			}
+		}
+	}
+}

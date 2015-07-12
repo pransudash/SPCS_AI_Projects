@@ -1,0 +1,29 @@
+
+public class ManhattanHeuristic implements AStarHeuristic {
+	
+	public int getCost(Board state, Board goalState) {
+		
+		// TODO Complete method implementation
+		int diffs = 0;
+		int currentI;
+		int currentN;
+		
+		for( int i = 0; i < Board.rows; i++ ) {
+			for( int n = 0; n < Board.columns; n++ ) {
+				currentI = i;
+				currentN = n;
+				for( int x = 0; x < Board.rows; x++ ) {
+					for( int y = 0; y < Board.columns; y++ ) {
+						currentI++;
+						currentN++;
+						if( state.tiles[i][n] == goalState.tiles[x][y] )
+							diffs += (currentI + currentN);
+					}
+				}
+			}
+		}
+		
+		return diffs;
+	}
+}
+

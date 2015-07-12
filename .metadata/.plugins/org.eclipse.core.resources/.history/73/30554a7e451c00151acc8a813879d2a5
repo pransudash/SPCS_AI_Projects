@@ -1,0 +1,10 @@
+
+public class ManhattanHeuristic implements AStarHeuristic {
+	public int getCost(Board state, Board goalState) {
+		
+		// TODO Complete method implementation
+		
+		return 0;
+	}
+}
+

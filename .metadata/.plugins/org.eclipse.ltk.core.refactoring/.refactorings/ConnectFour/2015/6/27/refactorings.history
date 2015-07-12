@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Connect4AI&apos; to &apos;ConnectFourAI&apos;&#x0D;&#x0A;- Original project: &apos;ConnectFour&apos;&#x0D;&#x0A;- Original element: &apos;Connect4AI&apos;&#x0D;&#x0A;- Renamed element: &apos;ConnectFourAI&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Connect4AI&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;{Connect4AI.java[Connect4AI" matchStrategy="1" name="ConnectFourAI" qualified="false" references="true" similarDeclarations="false" stamp="1435609083447" textual="false" version="1.0"/>
+</session>
